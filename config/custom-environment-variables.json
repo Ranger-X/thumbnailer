@@ -4,11 +4,6 @@
     "accessKey": "MINIO_ACCESS_KEY",
     "secretKey": "MINIO_SECRET_KEY",
     "bucket": "MINIO_BUCKET",
-    "destBucket": "MINIO_DESTBUCKET",
-    "prefix": "",
-    "suffix": "",
-    "events": [
-      "s3:ObjectCreated:*"
-    ]
+    "destBucket": "MINIO_DESTBUCKET"
   }
 }

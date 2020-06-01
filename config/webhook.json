@@ -5,8 +5,8 @@
     "secretKey": "<secret-id>",
     "bucket": "<bucket>",
     "destBucket": "<bucket-processed>",
-    "prefix": "<prefix>",
-    "suffix": "<suffix>",
+    "prefix": "",
+    "suffix": "",
     "events": [
       "s3:ObjectCreated:*"
     ]
