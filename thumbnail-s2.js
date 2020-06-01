@@ -93,6 +93,11 @@ app.post('/', function (req, res) {
         callback("Source and destination buckets are the same.");
         return;
     }*/
+
+    // do nothing for already thumbnailed image
+    if (srcKey.match(/_thumb\.([^.]*)$/))
+        return;
+
     // Infer the image type.
     var typeMatch = srcKey.match(/\.([^.]*)$/);
     if (!typeMatch) {
@@ -112,7 +117,6 @@ app.post('/', function (req, res) {
                 s3.getObject(srcBucket, srcKey, next);
             },
             function transform(response, next) {
-                console.log("Try transform \n", util.inspect(response, {depth: 5}))
                 gm(response)
                     .resize(500)
                     .autoOrient()
