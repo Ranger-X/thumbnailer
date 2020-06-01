@@ -6,7 +6,7 @@
     "secretKey": "MINIO_SECRET_KEY",
     "bucket": "MINIO_BUCKET",
     "destBucket": "MINIO_DESTBUCKET",
-    "prefix": "MINIO_PREFIX",
+    "prefix": "",
     "suffix": "",
     "events": [
       "s3:ObjectCreated:*"
