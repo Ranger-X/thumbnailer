@@ -25,15 +25,6 @@ var MAX_HEIGHT = 300;
 // get reference to S3 client
 var s3 = new Minio.Client(mcConfig)
 
-// Generates a webhook config json.
-var webhookConfig = function() {
-    var config = {"webhook": {}}
-    config.webhook["1"] = {}
-    config.webhook["1"].enable = true
-    config.webhook["1"].endpoint = "http://localhost:3000"
-    return JSON.stringify(config, null, '\t')
-}
-
 app.use(bodyParser.json()); // for parsing application/json
 
 app.post('/', function (req, res) {
@@ -41,6 +32,51 @@ app.post('/', function (req, res) {
 
     // Read options from the event.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
+    // Reading options from event:
+    // {
+    //     EventName: 's3:ObjectCreated:Post',
+    //         Key: 'salesapiens/salesapiens/avatar/1590880446-1-0002-5468/mini_magick20200530-1-1uk5v45.png',
+    //     Records: [
+    //     {
+    //         eventVersion: '2.0',
+    //         eventSource: 'minio:s3',
+    //         awsRegion: '',
+    //         eventTime: '2020-06-01T15:51:57Z',
+    //         eventName: 's3:ObjectCreated:Post',
+    //         userIdentity: { principalId: '' },
+    //         requestParameters: { accessKey: '', region: '', sourceIPAddress: '81.23.1.1' },
+    //         responseElements: {
+    //             'x-amz-request-id': '1614765D7F7CC834',
+    //             'x-minio-deployment-id': 'dba0aed8-3801-4081-b708-c7b054e283d4',
+    //             'x-minio-origin-endpoint': 'http://10.0.1.39:9000'
+    //         },
+    //         s3: {
+    //             s3SchemaVersion: '1.0',
+    //             configurationId: 'Config',
+    //             bucket: {
+    //                 name: 'salesapiens',
+    //                 ownerIdentity: { principalId: '' },
+    //                 arn: 'arn:aws:s3:::salesapiens'
+    //             },
+    //             object: {
+    //                 key: 'salesapiens%2Favatar%2F1590880446-1-0002-5468%2Fmini_magick20200530-1-1uk5v45.png',
+    //                 size: 424739,
+    //                 eTag: '0b12eaca61f5644e3e6165c0179b54fb-1',
+    //                 contentType: 'image/png',
+    //                 userMetadata: { 'content-type': 'image/png' },
+    //                 versionId: '1',
+    //                 sequencer: '1614765ECEA7FFD0'
+    //             }
+    //         },
+    //         source: {
+    //             host: '81.23.1.1',
+    //             port: '',
+    //             userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/81.0.4044.138 Chrome/81.0.4044.138 Safari/537.36'
+    //         }
+    //     }
+    // ]
+    // }
+
     var srcBucket = event.Records[0].s3.bucket.name;
     // Object key may have spaces or unicode non-ASCII characters.
     var srcKey    = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " "));
@@ -68,11 +104,7 @@ app.post('/', function (req, res) {
     async.waterfall([
             function download(next) {
                 // Download the image from S3 into a buffer.
-                s3.getObject({
-                        Bucket: srcBucket,
-                        Key: srcKey
-                    },
-                    next);
+                s3.getObject(srcBucket, srcKey, next);
             },
             function transform(response, next) {
                 gm(response.Body)
