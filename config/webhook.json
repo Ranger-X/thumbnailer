@@ -1,6 +1,8 @@
 {
   "config": {
     "endPoint": "<endpoint>",
+    "port": 443,
+    "useSSL": true,
     "accessKey": "<access-id>",
     "secretKey": "<secret-id>",
     "bucket": "<bucket>",
