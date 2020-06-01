@@ -1,7 +1,7 @@
 {
   "config": {
     "endPoint": "MINIO_ENDPOINT",
-    "secure": false,
+    "secure": "false",
     "accessKey": "MINIO_ACCESS_KEY",
     "secretKey": "MINIO_SECRET_KEY",
     "bucket": "MINIO_BUCKET",
