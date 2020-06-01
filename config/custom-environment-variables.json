@@ -1,0 +1,15 @@
+{
+  "config": {
+    "endPoint": "MINIO_ENDPOINT",
+    "secure": false,
+    "accessKey": "MINIO_ACCESS_KEY",
+    "secretKey": "MINIO_SECRET_KEY",
+    "bucket": "MINIO_BUCKET",
+    "destBucket": "MINIO_DESTBUCKET",
+    "prefix": "MINIO_PREFIX",
+    "suffix": "",
+    "events": [
+      "s3:ObjectCreated:*"
+    ]
+  }
+}
