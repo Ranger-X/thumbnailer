@@ -1,8 +1,6 @@
 {
   "config": {
     "endPoint": "<endpoint>",
-    "port": 9000,
-    "secure": false,
     "accessKey": "<access-id>",
     "secretKey": "<secret-id>",
     "bucket": "<bucket>",
