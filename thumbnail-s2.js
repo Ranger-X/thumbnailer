@@ -32,7 +32,7 @@ app.post('/', function (req, res) {
 
     // Read options from the event.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
-    if (event.length === 0) {
+    if (typeof event.Records === "undefined") {
         // just return for empty event
         return;
     }
@@ -95,8 +95,10 @@ app.post('/', function (req, res) {
     }*/
 
     // do nothing for already thumbnailed image
-    if (srcKey.match(/_thumb\.([^.]*)$/))
+    if (srcKey.match(/_thumb\.([^.]*)$/)) {
+        console.log("Already thumbnailed image " + srcKey + ". Skipped");
         return;
+    }
 
     // Infer the image type.
     var typeMatch = srcKey.match(/\.([^.]*)$/);
