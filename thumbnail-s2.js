@@ -32,6 +32,11 @@ app.post('/', function (req, res) {
 
     // Read options from the event.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
+    if (event.length === 0) {
+        // just return for empty event
+        return;
+    }
+
     // Reading options from event:
     // {
     //     EventName: 's3:ObjectCreated:Post',
@@ -107,7 +112,8 @@ app.post('/', function (req, res) {
                 s3.getObject(srcBucket, srcKey, next);
             },
             function transform(response, next) {
-                gm(response.Body)
+                console.log("Try transform \n", util.inspect(response, {depth: 5}))
+                gm(response)
                     .resize(500)
                     .autoOrient()
                     .command('convert')
