@@ -33,7 +33,8 @@ app.post('/', function (req, res) {
     // Read options from the event.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
     if (typeof event.Records === "undefined") {
-        // just return for empty event
+        res.send("");
+        // just return for empty event (ping from minio?)
         return;
     }
 
