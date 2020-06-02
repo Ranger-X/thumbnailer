@@ -98,6 +98,7 @@ app.post('/', function (req, res) {
     // do nothing for already thumbnailed image
     if (srcKey.match(/_thumb\.([^.]*)$/)) {
         console.log("Already thumbnailed image " + srcKey + ". Skipped");
+        res.send("");
         return;
     }
 
@@ -105,12 +106,14 @@ app.post('/', function (req, res) {
     var typeMatch = srcKey.match(/\.([^.]*)$/);
     if (!typeMatch) {
         console.log("Could not determine the image type.");
+        res.send("");
         return;
     }
     var imageType = typeMatch[1];
     var lowerImageType = imageType.toLowerCase();
     if (lowerImageType != "jpg" && lowerImageType != "jpeg" && lowerImageType != "bmp" && lowerImageType != "png") {
         console.log('Unsupported image type:  '+imageType);
+        res.send("");
         return;
     }
     // Download the image from S3, transform, and upload to a different S3 bucket.
